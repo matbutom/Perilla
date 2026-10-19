@@ -92,8 +92,8 @@
 
 /**
  * \example ej05_encoder/ej05_encoder.ino
- * \~spanish Arduino: lee un encoder, su direccion y sus pasos.
- * \~english Arduino: reads an encoder, its direction and its steps.
+ * \~spanish Arduino UNO R4 WiFi: lee posicion y eventos del boton KY-040.
+ * \~english Arduino UNO R4 WiFi: reads KY-040 position and button events.
  */
 
 /**
@@ -128,18 +128,6 @@
 
 /**
  * \example ej05_encoder/main.cpp
- * \~spanish Pico SDK: lee un encoder, su direccion y sus pasos.
- * \~english Pico SDK: reads an encoder, its direction and its steps.
- */
-
-/**
- * \example ej06_encoderRotativo/ej06_encoderRotativo.ino
- * \~spanish Arduino UNO R4 WiFi: encoder KY-040, posicion y eventos SW.
- * \~english Arduino UNO R4 WiFi: KY-040 position and SW events.
- */
-
-/**
- * \example ej06_encoderRotativo/main.cpp
- * \~spanish Pico SDK: encoder KY-040 con alimentacion de 3.3 V.
- * \~english Pico SDK: KY-040 encoder at 3.3 V.
+ * \~spanish Pico SDK: lee posicion y eventos del boton KY-040 a 3.3 V.
+ * \~english Pico SDK: reads KY-040 position and button events at 3.3 V.
  */

@@ -1,4 +1,4 @@
-#include "EncoderRotativo.h"
+#include "Perilla.h"
 #include "Hardware.h"
 
 static const int8_t deltaCuadratura[16] = {

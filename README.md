@@ -4,7 +4,7 @@ Biblioteca para leer perillas con microcontroladores, y mapear su valor a otro r
 
 `Perilla` lee potenciómetros y conserva su API actual. `EncoderRotativo` es una clase separada para encoders incrementales KY-040.
 
-La implementación Arduino se distribuye como biblioteca Arduino; Raspberry Pi Pico SDK tiene una implementación propia y ejemplos en `pico/`. No se declara compatibilidad Arduino para placas Pico.
+La biblioteca usa la API estándar de Arduino y declara compatibilidad con todas las arquitecturas Arduino (`architectures=*`). Para Raspberry Pi Pico se incluye una implementación propia para Pico SDK, separada de Arduino.
 
 ## Conexiones
 
@@ -50,7 +50,7 @@ Si la lectura tiembla por el ruido, `perilla.setFiltro(20)` incorpora un 20% de 
 
 ## Uso con Raspberry Pi Pico SDK
 
-La carpeta [pico/](./pico/) tiene un proyecto CMake que compila la biblioteca y un ejemplo para Pico 2. Necesitas el [Pico SDK](https://github.com/raspberrypi/pico-sdk) instalado, o la extensión Raspberry Pi Pico de VS Code.
+La carpeta [pico/](./pico/) tiene un proyecto CMake para placas Raspberry Pi Pico con Pico SDK. Selecciona el modelo con `-DPICO_BOARD=pico`, `pico_w`, `pico2` o `pico2_w` (según la placa y la versión del SDK). Necesitas el [Pico SDK](https://github.com/raspberrypi/pico-sdk) instalado, o la extensión Raspberry Pi Pico de VS Code.
 
 ```bash
 cd pico
@@ -68,12 +68,12 @@ En Pico, la perilla se lee de 0 a 4095 (12 bits), no de 0 a 1023 como en Arduino
 
 Un potenciómetro entrega una tensión proporcional a una posición absoluta y se lee con `Perilla`. Un encoder incremental entrega pulsos al girar: la posición se acumula desde el encendido (puede ser negativa) y no representa un ángulo absoluto.
 
-`EncoderRotativo` conserva independientemente la API y el comportamiento de `Perilla`. Conecta CLK, DT y opcionalmente SW a GPIO; los tres usan pull-up interno y el común del encoder va a GND. El botón es activo en bajo. En Arduino UNO R4 WiFi conecta VCC → 5V, GND → GND, CLK → D2, DT → D3 y SW → D4. El ejemplo está en [examples/ej06_encoderRotativo/](./examples/ej06_encoderRotativo/), a 115200 baudios.
+`EncoderRotativo` está declarado en el mismo `Perilla.h` que la clase `Perilla`; ambas clases conservan comportamientos independientes. Conecta CLK, DT y opcionalmente SW a GPIO; los tres usan pull-up interno y el común del encoder va a GND. El botón es activo en bajo. En Arduino UNO R4 WiFi conecta VCC → 5V, GND → GND, CLK → D2, DT → D3 y SW → D4. El ejemplo existente [ej05_encoder](./examples/ej05_encoder/ej05_encoder.ino) imprime posición y eventos del botón a 115200 baudios.
 
-En Raspberry Pi Pico conecta VCC → 3V3 (nunca 5V), GND → GND, CLK → GPIO 14, DT → GPIO 15 y SW → GPIO 16. El ejemplo Pico SDK está en [pico/ej06_encoderRotativo/](./pico/ej06_encoderRotativo/).
+En Raspberry Pi Pico conecta VCC → 3V3 (nunca 5V), GND → GND, CLK → GPIO 14, DT → GPIO 15 y SW → GPIO 16. La variante Pico SDK del ejemplo existente está en [pico/ej05_encoder/](./pico/ej05_encoder/main.cpp).
 
 ```cpp
-#include "EncoderRotativo.h"
+#include "Perilla.h"
 
 EncoderRotativo encoder(2, 3, 4); // CLK, DT, SW; omite SW con -1
 encoder.setTransicionesPorPaso(4); // 1, 2 o 4 transiciones por paso
@@ -109,8 +109,7 @@ Cada ejemplo existe para Arduino, en [examples/](./examples/), y para Pico SDK, 
 | `ej02_umbral` | enciende el led de la placa cuando la perilla pasa de la mitad |
 | `ej03_dosPerillas` | lee dos perillas a la vez, en formato para el plotter serial |
 | `ej04_filtro` | suaviza la lectura con un filtro opcional |
-| `ej05_encoder` | lee un encoder: dirección del giro y pasos acumulados |
-| `ej06_encoderRotativo` | encoder KY-040 independiente, posición firmada y botón con antirrebote |
+| `ej05_encoder` | lee un encoder KY-040: posición firmada, dirección y botón |
 
 ## Referencia
 
